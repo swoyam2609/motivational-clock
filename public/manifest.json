@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Motivational Clock",
+  "name": "Motivational Clock - Beautiful Clock with Inspiring Quotes",
+  "description": "A beautiful, fullscreen clock app with AI-powered motivational quotes that refresh every 15 seconds. Perfect for focus, productivity, and daily inspiration.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -10,16 +11,22 @@
     {
       "src": "logo192.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "any maskable"
     },
     {
       "src": "logo512.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "orientation": "any",
+  "theme_color": "#87ceeb",
+  "background_color": "#1a1a2e",
+  "categories": ["productivity", "utilities", "lifestyle"],
+  "screenshots": [],
+  "shortcuts": []
 }
