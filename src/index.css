@@ -212,9 +212,9 @@ body {
 
 .quote-text {
   font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: clamp(1rem, 1.6vw, 1.8rem);
+  font-size: clamp(1rem, 1.4vw, 1.8rem);
   color: #87ceeb;
-  font-weight: 400;
+  font-weight: 350;
   line-height: 1.4;
   opacity: 0.85;
   margin: 0;

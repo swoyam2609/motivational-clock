@@ -5,7 +5,7 @@ import Timer from './Timer';
 import TimerModal from './TimerModal';
 
 const QuoteProgressBar = ({ timeRemaining }) => {
-    const progress = ((15 - timeRemaining) / 15) * 100;
+    const progress = ((120 - timeRemaining) / 120) * 100; // 2 minutes = 120 seconds
     const size = 24; // Base size, will scale with CSS
     const radius = 10;
     const circumference = 2 * Math.PI * radius;
@@ -46,7 +46,7 @@ const Dashboard = ({ userName }) => {
     const [showTimerModal, setShowTimerModal] = useState(false);
     const [isAlarmRinging, setIsAlarmRinging] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState(false);
-    const [quoteTimeRemaining, setQuoteTimeRemaining] = useState(15);
+    const [quoteTimeRemaining, setQuoteTimeRemaining] = useState(120); // 2 minutes
     const alarmIntervalRef = useRef(null);
     const audioContextRef = useRef(null);
     const activeOscillatorsRef = useRef([]);

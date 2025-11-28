@@ -4,10 +4,11 @@ import { fetchQuote } from '../services/gemini';
 const Quote = ({ onTimeRemainingChange }) => {
     const [quote, setQuote] = useState('');
     const [author, setAuthor] = useState('');
-    const [timeRemaining, setTimeRemaining] = useState(15);
+    const [timeRemaining, setTimeRemaining] = useState(120); // 2 minutes
     const [isVisible, setIsVisible] = useState(true);
-    const quoteRef = useRef('');
-    const REFRESH_INTERVAL = 15000; // 15 seconds
+    const quoteHistoryRef = useRef([]); // Store up to 50 quotes
+    const MAX_HISTORY_SIZE = 50;
+    const REFRESH_INTERVAL = 120000; // 2 minutes (120 seconds)
 
     useEffect(() => {
         if (onTimeRemainingChange) {
@@ -16,20 +17,29 @@ const Quote = ({ onTimeRemainingChange }) => {
     }, [timeRemaining, onTimeRemainingChange]);
 
     useEffect(() => {
-        quoteRef.current = quote;
-    }, [quote]);
-
-    useEffect(() => {
         const getQuote = async () => {
             // Fade out
             setIsVisible(false);
 
             // Wait for fade out animation
             setTimeout(async () => {
-                const result = await fetchQuote(quoteRef.current);
+                // Get previous quotes list (max 50)
+                const previousQuotes = quoteHistoryRef.current;
+                
+                const result = await fetchQuote(previousQuotes);
+                
+                // Add new quote to history
+                const newQuote = result.quote;
+                quoteHistoryRef.current.push(newQuote);
+                
+                // Maintain max size of 50 - remove oldest if exceeds
+                if (quoteHistoryRef.current.length > MAX_HISTORY_SIZE) {
+                    quoteHistoryRef.current.shift(); // Remove oldest quote
+                }
+                
                 setQuote(result.quote);
                 setAuthor(result.author);
-                setTimeRemaining(15); // Reset countdown
+                setTimeRemaining(120); // Reset countdown to 2 minutes
 
                 // Fade in
                 setIsVisible(true);
@@ -47,7 +57,7 @@ const Quote = ({ onTimeRemainingChange }) => {
             setTimeRemaining((prev) => {
                 const newValue = prev - 0.1;
                 if (newValue <= 0) {
-                    return 15; // Reset to 15 when it reaches 0
+                    return 120; // Reset to 120 seconds (2 minutes) when it reaches 0
                 }
                 return Math.max(0, newValue);
             });
@@ -59,8 +69,8 @@ const Quote = ({ onTimeRemainingChange }) => {
         };
     }, []);
 
-    // Calculate progress percentage (0 to 100)
-    const progress = ((15 - timeRemaining) / 15) * 100;
+    // Calculate progress percentage (0 to 100) - based on 120 seconds
+    const progress = ((120 - timeRemaining) / 120) * 100;
     const circumference = 2 * Math.PI * 12; // radius = 12 (larger circle)
     const strokeDashoffset = circumference - (progress / 100) * circumference;
 

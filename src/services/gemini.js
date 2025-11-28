@@ -1,6 +1,6 @@
 const API_KEY = process.env.REACT_APP_SARVAM_API_KEY;
 
-export const fetchQuote = async (currentQuote = '') => {
+export const fetchQuote = async (previousQuotes = []) => {
   if (!API_KEY) {
     console.error("Sarvam API key is missing");
     return {
@@ -12,8 +12,9 @@ export const fetchQuote = async (currentQuote = '') => {
   try {
     let prompt = `Give me a short, powerful motivational quote that resonates with engineers and students. The quote should relate to themes like: coding, problem-solving, learning, debugging, perseverance, innovation, building things, continuous learning, or overcoming technical challenges. Make it inspiring and relatable to someone working on code or studying. Include the author's name. Format your response as: QUOTE_TEXT | AUTHOR_NAME. Just the quote and author separated by a pipe symbol, no quotes around the quote text.`;
 
-    if (currentQuote) {
-      prompt = `The current motivational quote is: "${currentQuote}". Give me a different short, powerful motivational quote that resonates with engineers and students. The quote should relate to themes like: coding, problem-solving, learning, debugging, perseverance, innovation, building things, continuous learning, or overcoming technical challenges. Make it inspiring and relatable to someone working on code or studying. Make sure it's completely different from the current one. Include the author's name. Format your response as: QUOTE_TEXT | AUTHOR_NAME. Just the quote and author separated by a pipe symbol, no quotes around the quote text.`;
+    if (previousQuotes && previousQuotes.length > 0) {
+      const quotesList = previousQuotes.map((q, idx) => `${idx + 1}. "${q}"`).join('\n');
+      prompt = `I have already shown these motivational quotes:\n${quotesList}\n\nGive me a NEW, completely different short, powerful motivational quote that resonates with engineers and students. The quote should relate to themes like: coding, problem-solving, learning, debugging, perseverance, innovation, building things, continuous learning, or overcoming technical challenges. Make it inspiring and relatable to someone working on code or studying. IMPORTANT: Make sure the new quote is completely different from all the quotes listed above. Do not repeat any of them. Include the author's name. Format your response as: QUOTE_TEXT | AUTHOR_NAME. Just the quote and author separated by a pipe symbol, no quotes around the quote text.`;
     }
 
     const response = await fetch(
