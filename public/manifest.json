@@ -1,7 +1,7 @@
 {
   "short_name": "Motivational Clock",
-  "name": "Motivational Clock - Beautiful Clock with Inspiring Quotes",
-  "description": "A beautiful, fullscreen clock app with AI-powered motivational quotes that refresh every 15 seconds. Perfect for focus, productivity, and daily inspiration.",
+  "name": "Motivational Clock - Standby Mode & Focus Timer",
+  "description": "Aesthetic digital clock inspired by Apple Standby Mode. Features AI motivation for engineers, focus timer, and study tools.",
   "icons": [
     {
       "src": "favicon.ico",
