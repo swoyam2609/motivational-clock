@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Onboarding from './components/Onboarding';
+import Dashboard from './components/Dashboard';
+import './index.css';
 
 function App() {
+  const [userName, setUserName] = useState(localStorage.getItem('userName') || '');
+
+  const handleOnboardingComplete = (name) => {
+    setUserName(name);
+    localStorage.setItem('userName', name);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      {!userName ? (
+        <Onboarding onComplete={handleOnboardingComplete} />
+      ) : (
+        <Dashboard userName={userName} />
+      )}
     </div>
   );
 }
