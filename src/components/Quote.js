@@ -3,9 +3,10 @@ import { fetchQuote } from '../services/gemini';
 
 const Quote = () => {
     const [quote, setQuote] = useState('');
-    const [timeRemaining, setTimeRemaining] = useState(120);
+    const [author, setAuthor] = useState('');
+    const [timeRemaining, setTimeRemaining] = useState(15);
     const quoteRef = useRef('');
-    const REFRESH_INTERVAL = 120000; // 2 minutes
+    const REFRESH_INTERVAL = 15000; // 15 seconds
 
     useEffect(() => {
         quoteRef.current = quote;
@@ -13,9 +14,10 @@ const Quote = () => {
 
     useEffect(() => {
         const getQuote = async () => {
-            const newQuote = await fetchQuote(quoteRef.current);
-            setQuote(newQuote);
-            setTimeRemaining(120); // Reset countdown
+            const result = await fetchQuote(quoteRef.current);
+            setQuote(result.quote);
+            setAuthor(result.author);
+            setTimeRemaining(15); // Reset countdown
         };
 
         getQuote(); // Initial fetch
@@ -28,7 +30,7 @@ const Quote = () => {
         const countdownInterval = setInterval(() => {
             setTimeRemaining((prev) => {
                 if (prev <= 1) {
-                    return 120; // Reset to 120 when it reaches 0
+                    return 15; // Reset to 15 when it reaches 0
                 }
                 return prev - 1;
             });
@@ -41,7 +43,7 @@ const Quote = () => {
     }, []);
 
     // Calculate progress percentage (0 to 100)
-    const progress = ((120 - timeRemaining) / 120) * 100;
+    const progress = ((15 - timeRemaining) / 15) * 100;
     const circumference = 2 * Math.PI * 12; // radius = 12 (larger circle)
     const strokeDashoffset = circumference - (progress / 100) * circumference;
 
@@ -73,7 +75,10 @@ const Quote = () => {
                         />
                     </svg>
                 </div>
-                <p className="quote-text">{quote}</p>
+                <div className="quote-content">
+                    <p className="quote-text">{quote}</p>
+                    {author && <p className="quote-author">— {author}</p>}
+                </div>
             </div>
         </div>
     );
