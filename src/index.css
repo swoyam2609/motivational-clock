@@ -84,12 +84,33 @@ body {
   gap: 12px;
 }
 
+.date-with-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .date-display {
   font-family: 'Rajdhani', sans-serif;
   font-size: clamp(1rem, 2vw, 2rem);
   font-weight: 500;
   color: #87ceeb;
   letter-spacing: 2px;
+}
+
+.quote-progress-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quote-progress-bar svg {
+  width: clamp(1rem, 2vw, 2rem);
+  height: clamp(1rem, 2vw, 2rem);
+}
+
+.quote-progress-bar svg circle:last-child {
+  transition: stroke-dashoffset 0.1s linear;
 }
 
 .center-content {
@@ -169,26 +190,6 @@ body {
   text-align: right;
 }
 
-.quote-with-progress {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  justify-content: flex-end;
-}
-
-.quote-progress-circle {
-  flex-shrink: 0;
-  margin-top: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.quote-progress-circle svg {
-  transition: stroke-dashoffset 0.3s ease;
-  width: clamp(24px, 2vw, 32px);
-  height: clamp(24px, 2vw, 32px);
-}
 
 .quote-content {
   flex: 1;
@@ -196,6 +197,17 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.quote-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.quote-hidden {
+  opacity: 0;
+  transform: translateY(-10px);
 }
 
 .quote-text {

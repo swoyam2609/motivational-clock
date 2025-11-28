@@ -4,12 +4,49 @@ import Quote from './Quote';
 import Timer from './Timer';
 import TimerModal from './TimerModal';
 
+const QuoteProgressBar = ({ timeRemaining }) => {
+    const progress = ((15 - timeRemaining) / 15) * 100;
+    const size = 24; // Base size, will scale with CSS
+    const radius = 10;
+    const circumference = 2 * Math.PI * radius;
+    const strokeDashoffset = circumference - (progress / 100) * circumference;
+
+    return (
+        <div className="quote-progress-bar">
+            <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+                <circle
+                    cx={size / 2}
+                    cy={size / 2}
+                    r={radius}
+                    fill="none"
+                    stroke="rgba(135, 206, 235, 0.2)"
+                    strokeWidth="3.5"
+                />
+                <circle
+                    cx={size / 2}
+                    cy={size / 2}
+                    r={radius}
+                    fill="none"
+                    stroke="#87ceeb"
+                    strokeWidth="4"
+                    strokeDasharray={circumference}
+                    strokeDashoffset={strokeDashoffset}
+                    strokeLinecap="round"
+                    transform={`rotate(-90 ${size / 2} ${size / 2})`}
+                    opacity="0.7"
+                />
+            </svg>
+        </div>
+    );
+};
+
 const Dashboard = ({ userName }) => {
     const [isTimerMode, setIsTimerMode] = useState(false);
     const [timerDuration, setTimerDuration] = useState(null);
     const [showTimerModal, setShowTimerModal] = useState(false);
     const [isAlarmRinging, setIsAlarmRinging] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState(false);
+    const [quoteTimeRemaining, setQuoteTimeRemaining] = useState(15);
     const alarmIntervalRef = useRef(null);
     const audioContextRef = useRef(null);
     const activeOscillatorsRef = useRef([]);
@@ -229,8 +266,11 @@ const Dashboard = ({ userName }) => {
             />
 
             <div className="top-right-info">
-                <div className="date-display">{getDateString()}</div>
-                <Quote />
+                <div className="date-with-progress">
+                    <div className="date-display">{getDateString()}</div>
+                    <QuoteProgressBar timeRemaining={quoteTimeRemaining} />
+                </div>
+                <Quote onTimeRemainingChange={setQuoteTimeRemaining} />
             </div>
             <div className="center-content">
                 {isTimerMode && timerDuration ? (
